@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>StudyFlow — Create Set</title>
+    <link rel="icon" href="../assets/sf_logo.png" type="image/png" />
     <link rel="stylesheet" href="../styles/globals.css" />
     <link rel="stylesheet" href="../styles/create.css" />
   </head>
@@ -28,7 +29,7 @@
       <aside class="sidebar" aria-label="Primary Navigation">
         <div class="container">
           <div class="brand">
-            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" style="width:100%;height:100%;object-fit:contain;" /></div>
+            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" class="img-contain w-100 h-100" /></div>
             <div>
               <h1>StudyFlow</h1>
               <p class="muted">Your Smooth Path to Mastery</p>
@@ -48,7 +49,7 @@
       <main>
         <section class="container" aria-label="Create Study Set">
           <div class="panel">
-            <h2 style="font-size:28px; font-weight:800;">Create Study Set</h2>
+            <h2 class="fs-28 fw-800">Create Study Set</h2>
             <p class="muted">Build your own flashcard set to master any topic.</p>
           </div>
         </section>
@@ -56,8 +57,8 @@
         <section class="container" aria-label="Study Set Information">
           <div class="panel">
             <div class="grid cols-2">
-              <label>Title<input id="set-title" type="text" placeholder="e.g., Spanish Vocabulary - Chapter 5" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" required /></label>
-              <label>Subject<select id="set-subject" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;">
+              <label>Title<input id="set-title" type="text" placeholder="e.g., Spanish Vocabulary - Chapter 5" class="form-control" required /></label>
+              <label>Subject<select id="set-subject" class="form-control">
                 <option value="">Select a subject</option>
                 <option>Mathematics</option>
                 <option>Science</option>
@@ -71,15 +72,15 @@
                 <option>Other</option>
               </select></label>
             </div>
-            <label>Description<textarea id="set-description" placeholder="What is this set about?" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px; min-height:100px;"></textarea></label>
+            <label>Description<textarea id="set-description" placeholder="What is this set about?" class="form-control minh-100"></textarea></label>
           </div>
         </section>
 
         <section class="container" aria-label="Import from Text File">
           <div class="panel import-panel">
-            <h3 style="font-weight:800; margin-bottom:8px;">Import from Text File</h3>
+            <h3 class="fw-800 mb-8">Import from Text File</h3>
             <p class="import-note" id="import-note">Format each line as: TERM, DEFINITION</p>
-            <div class="import-actions" style="margin:8px 0;">
+            <div class="import-actions my-8">
               <input type="file" id="txt-upload" accept=".txt" aria-label="Upload .txt study file" />
               <button class="btn" id="btn-import" aria-label="Create Set from File">Create Set from File</button>
             </div>
@@ -89,8 +90,8 @@
 
         <section class="container" aria-label="Cards">
           <div class="panel" id="cards-panel">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <h3 style="font-weight:800;">Cards</h3>
+            <div class="d-flex jc-between ai-center mb-12">
+              <h3 class="fw-800">Cards</h3>
               <button class="btn" id="btn-add-card">Add Card</button>
             </div>
             <div id="cards-list" class="grid cols-2"></div>
@@ -98,13 +99,13 @@
         </section>
 
         <section class="container" aria-label="Save">
-          <div class="panel" style="display:flex; gap:8px;">
+          <div class="panel d-flex gap-8">
             <button class="btn" id="btn-save">Save Set</button>
             <a class="btn secondary" href="study.html">Go to Study</a>
           </div>
         </section>
 
-        <footer class="container" role="contentinfo" style="padding-bottom: 80px;">
+        <footer class="container pb-80" role="contentinfo">
           <p class="muted">© <span id="year"></span> StudyFlow. All rights reserved.</p>
         </footer>
       </main>
@@ -113,6 +114,7 @@
     <nav class="mobile-nav" aria-label="Mobile Navigation"><div class="nav"><a href="home.html">Home</a><a href="study.html">Study</a><a href="create.html">Create</a><a href="search.html">Discover</a><a href="profile.html">Profile</a></div></nav>
 
     <script src="../scripts/storage.js"></script>
+    <script src="../scripts/achievements.js"></script>
     <script>
       // Card UI template and save logic
       const cardsList = document.getElementById('cards-list');
@@ -124,12 +126,10 @@
         wrapper.className = 'panel';
         wrapper.innerHTML = `
           <div class="grid cols-2">
-            <label>Term<input type="text" class="in-term" value="${escapeHtml(term)}" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" required /></label>
-            <label>Definition<input type="text" class="in-def" value="${escapeHtml(definition)}" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" required /></label>
+            <label>Term<input type="text" class="in-term form-control" value="${escapeHtml(term)}" required /></label>
+            <label>Definition<input type="text" class="in-def form-control" value="${escapeHtml(definition)}" required /></label>
           </div>
-          <div style="margin-top:8px; display:flex; gap:8px;">
-            <button type="button" class="btn secondary btn-remove">Remove</button>
-          </div>
+          <div class="mt-8 d-flex gap-8"><button type="button" class="btn secondary btn-remove">Remove</button></div>
         `;
         const removeBtn = wrapper.querySelector('.btn-remove');
         removeBtn.addEventListener('click', () => wrapper.remove());

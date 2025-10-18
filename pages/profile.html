@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>StudyFlow — Profile</title>
+    <link rel="icon" href="../assets/sf_logo.png" type="image/png" />
     <link rel="stylesheet" href="../styles/globals.css" />
     <link rel="stylesheet" href="../styles/profile.css" />
   </head>
@@ -28,7 +29,7 @@
       <aside class="sidebar" aria-label="Primary Navigation">
         <div class="container">
           <div class="brand">
-            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" style="width:100%;height:100%;object-fit:contain;" /></div>
+            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" class="img-contain w-100 h-100" /></div>
             <div>
               <h1>StudyFlow</h1>
               <p class="muted">Your Smooth Path to Mastery</p>
@@ -48,11 +49,11 @@
       </aside>
       <main>
         <section class="container" aria-label="Profile Header">
-          <div class="panel">
-            <div style="display:flex; align-items:center; gap:16px;">
-              <div class="brand-logo" aria-hidden="true" style="width:56px; height:56px;">👤</div>
+            <div class="panel">
+            <div class="d-flex ai-center gap-16">
+              <div class="brand-logo size-56" aria-hidden="true">👤</div>
               <div>
-                <h2 style="font-size:28px; font-weight:800;">Your Progress</h2>
+                <h2 class="fs-28 fw-800">Your Progress</h2>
                 <p class="muted">Track your study streak, time, sets, and achievements.</p>
               </div>
             </div>
@@ -63,19 +64,19 @@
           <div class="grid cols-2">
             <div class="panel">
               <p class="muted">Day Streak</p>
-              <p id="stat-streak" style="font-size:28px; font-weight:800;">0</p>
+              <p id="stat-streak" class="fs-28 fw-800">0</p>
             </div>
             <div class="panel">
               <p class="muted">Total Study Time</p>
-              <p id="stat-time" style="font-size:28px; font-weight:800;">0m</p>
+              <p id="stat-time" class="fs-28 fw-800">0m</p>
             </div>
             <div class="panel">
               <p class="muted">Sets Created</p>
-              <p id="stat-sets" style="font-size:28px; font-weight:800;">0</p>
+              <p id="stat-sets" class="fs-28 fw-800">0</p>
             </div>
             <div class="panel">
               <p class="muted">Cards Reviewed</p>
-              <p id="stat-cards" style="font-size:28px; font-weight:800;">0</p>
+              <p id="stat-cards" class="fs-28 fw-800">0</p>
             </div>
           </div>
         </section>
@@ -84,13 +85,13 @@
 
         <section class="container" aria-label="Achievements">
           <div class="panel">
-            <h3 style="font-weight:800; margin-bottom:8px;">Achievements</h3>
-            <p class="muted" style="margin-bottom:8px;">Hover an item to see how to unlock it.</p>
+            <h3 class="fw-800 mb-8">Achievements</h3>
+            <p class="muted mb-8">Hover an item to see how to unlock it.</p>
             <div id="achievements" class="grid cols-3"></div>
           </div>
         </section>
 
-        <footer class="container" role="contentinfo" style="padding-bottom: 80px;">
+        <footer class="container pb-80" role="contentinfo">
           <p class="muted">© <span id="year"></span> StudyFlow. All rights reserved.</p>
         </footer>
       </main>
@@ -121,11 +122,11 @@
         const icon = unlocked ? '🏅' : '🔒';
         return `
           <article class="panel fade-in-up" aria-label="Achievement: ${a.title}" title="${a.description}" style="opacity:${unlocked ? 1 : 0.6}">
-            <div style="display:flex; align-items:center; gap:10px;">
+            <div class="d-flex ai-center gap-10">
               <div class="brand-logo" aria-hidden="true" style="width:40px; height:40px;">${icon}</div>
               <div>
-                <h4 style="margin:0 0 4px; font-weight:800;">${a.title}</h4>
-                <p class="muted" style="margin-bottom:8px;">${a.description}</p>
+                <h4 class="fw-800" style="margin:0 0 4px;">${a.title}</h4>
+                <p class="muted mb-8">${a.description}</p>
                 <span class="badge">${unlocked ? 'Unlocked' : 'Locked'}</span>
               </div>
             </div>

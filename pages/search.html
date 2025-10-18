@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>StudyFlow — Discover</title>
+    <link rel="icon" href="../assets/sf_logo.png" type="image/png" />
     <link rel="stylesheet" href="../styles/globals.css" />
     <link rel="stylesheet" href="../styles/modal.css" />
   </head>
@@ -28,7 +29,7 @@
       <aside class="sidebar" aria-label="Primary Navigation">
         <div class="container">
           <div class="brand">
-            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" style="width:100%;height:100%;object-fit:contain;" /></div>
+            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" class="img-contain w-100 h-100" /></div>
             <div>
               <h1>StudyFlow</h1>
               <p class="muted">Your Smooth Path to Mastery</p>
@@ -49,12 +50,12 @@
       <main>
         <section class="container" aria-label="Search/Discover">
           <div class="panel">
-            <div class="grid cols-2" style="align-items:end;">
-              <label style="width:100%">Search
-                <input id="q" type="search" placeholder="Search study sets" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" aria-label="Search study sets" />
+            <div class="grid cols-2 ai-end">
+              <label class="w-100">Search
+                <input id="q" type="search" placeholder="Search study sets" class="form-control" aria-label="Search study sets" />
               </label>
               <label>Subject
-                <select id="subj" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" aria-label="Filter by subject">
+                <select id="subj" class="form-control" aria-label="Filter by subject">
                   <option value="">All</option>
                   <option>Mathematics</option>
                   <option>Science</option>
@@ -77,10 +78,10 @@
         <!-- Edit Modal -->
         <div id="edit-modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
           <div class="modal-panel panel">
-            <h3 id="edit-modal-title" style="font-weight:800;">Edit Study Set</h3>
-            <div class="grid cols-2" style="margin-top:8px;">
-              <label>Title<input id="edit-title" type="text" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" /></label>
-              <label>Subject<select id="edit-subject" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;">
+            <h3 id="edit-modal-title" class="fw-800">Edit Study Set</h3>
+            <div class="grid cols-2 mt-8">
+              <label>Title<input id="edit-title" type="text" class="form-control" /></label>
+              <label>Subject<select id="edit-subject" class="form-control">
                 <option>Mathematics</option>
                 <option>Science</option>
                 <option>History</option>
@@ -94,21 +95,16 @@
                 <option>General</option>
               </select></label>
             </div>
-            <label>Description<textarea id="edit-description" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px; min-height:100px;"></textarea></label>
-            <div style="margin-top:12px;">
-              <h4 style="font-weight:800; margin:0 0 8px;">Cards</h4>
+            <label>Description<textarea id="edit-description" class="form-control minh-100"></textarea></label>
+            <div class="mt-12">
+              <h4 class="fw-800 mb-8" style="margin:0;">Cards</h4>
               <div id="edit-cards" class="grid" role="list" aria-label="Edit cards list"></div>
-              <div style="margin-top:8px;">
-                <button id="edit-add-card" class="btn secondary" aria-label="Add new card">Add New Card</button>
-              </div>
+              <div class="mt-8"><button id="edit-add-card" class="btn secondary" aria-label="Add new card">Add New Card</button></div>
             </div>
-            <div style="display:flex; gap:8px; margin-top:12px;">
-              <button class="btn" id="edit-save" aria-label="Save changes">Save</button>
-              <button class="btn secondary" id="edit-cancel" aria-label="Cancel edit">Cancel</button>
-            </div>
+            <div class="d-flex gap-8 mt-12"><button class="btn" id="edit-save" aria-label="Save changes">Save</button><button class="btn secondary" id="edit-cancel" aria-label="Cancel edit">Cancel</button></div>
           </div>
         </div>
-        <footer class="container" role="contentinfo" style="padding-bottom: 80px;">
+        <footer class="container pb-80" role="contentinfo">
           <p class="muted">© <span id="year"></span> StudyFlow. All rights reserved.</p>
         </footer>
       </main>
@@ -142,16 +138,16 @@
           const safeDesc = escapeHtml(set.description || '');
           return `
             <article class="panel">
-              <header style="display:flex; align-items:center; justify-content:space-between;">
-                <h4 style="margin:0; font-weight:800;">${safeTitle}</h4>
+              <header class="d-flex ai-center jc-between">
+                <h4 class="fw-800" style="margin:0;">${safeTitle}</h4>
                 <span class="badge">${(set.cards||[]).length} cards</span>
               </header>
               <p class="muted" style="margin:8px 0 12px;">${safeDesc}</p>
               <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" style="width:${Math.min(100, set.progress||0)}%"></div></div>
-              <div style="margin-top:12px; display:flex; gap:8px;">
+              <div class="mt-12 d-flex gap-8">
                 <a class="btn secondary" href="study.html?set=${encodeURIComponent(set.id)}" aria-label="Study ${safeTitle}">Study</a>
-                <button class="btn" data-action="edit" data-id="${set.id}" style="background:#a855f7" aria-label="Edit ${safeTitle}">Edit</button>
-                <button class="btn secondary" data-action="delete" data-id="${set.id}" style="color:#ec4899; border-color:#fbcfe8" aria-label="Delete ${safeTitle}">Delete</button>
+                <button class="btn solid-purple" data-action="edit" data-id="${set.id}" aria-label="Edit ${safeTitle}">Edit</button>
+                <button class="btn secondary pink-accent" data-action="delete" data-id="${set.id}" aria-label="Delete ${safeTitle}">Delete</button>
               </div>
             </article>`;
         }).join('');
