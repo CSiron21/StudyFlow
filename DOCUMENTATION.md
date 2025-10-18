@@ -1,124 +1,100 @@
-# StudyFlow - Educational Flashcard Platform Documentation
+# StudyFlow - Project Documentation
 
-## Your website Purpose & Objectives
+## Overview
+StudyFlow is a client‑side (no backend) flashcard website built with plain HTML, CSS, and JavaScript. Users can create study sets, import from .txt, study in multiple modes, search/edit/delete sets, and track achievements and stats. All data persists in the browser using localStorage.
 
-**StudyFlow** is a modern, interactive educational platform designed to revolutionize the way students learn through digital flashcards. The website serves as a comprehensive study companion that enables users to create, discover, and study from flashcard sets across various academic subjects.
+Key pages: `index.html` (landing), `pages/home.html`, `pages/create.html`, `pages/study.html`, `pages/search.html`, `pages/profile.html`.
 
-### Primary Objectives:
-- **Enhanced Learning Experience**: Provide an intuitive and engaging platform for students to create and study flashcards
-- **Knowledge Sharing**: Enable educators and students to share study materials and discover content from the community
-- **Progress Tracking**: Help users monitor their learning progress through detailed analytics and achievement systems
-- **Accessibility**: Ensure the platform is accessible across all devices with responsive design
-- **Gamification**: Incorporate achievement systems and progress tracking to motivate continuous learning
+## Data Model and Storage
+Storage is local to the device/browser (per origin) via localStorage.
 
-## Website Plan
+Keys
+- `sf_sets`: Array<StudySet>
+- `studyflow_sets` (mirror for compatibility): Array<StudySet>
+- `sf_stats`: Stats
+- `sf_achievements`: Array<Achievement>
 
-### Website Name & Tagline
-- **Name**: StudyFlow
-- **Tagline**: "Master any topic with smart flashcards"
+Types
+- StudySet: `{ id, title, subject, description, createdAt, dateCreated, cards: Card[] }`
+- Card: `{ term, definition }`
+- Stats: `{ totalCardsStudied, setsCreated, studyStreakDays, lastStudyDateISO, totalStudyMinutes }`
+- Achievement: `{ id, title, description, unlockedAt? }`
 
-### Purpose of the Website
-StudyFlow is designed to be the ultimate digital study companion for students and educators. The platform combines traditional flashcard learning with modern technology to create an engaging, efficient, and social learning experience. Users can create personalized study sets, discover content from the community, track their progress, and achieve learning milestones through an intuitive and visually appealing interface.
+Storage module (`scripts/storage.js`)
+- Helpers `getLocalJson`/`setLocalJson` wrap JSON parse/stringify with try/catch.
+- `initDefaults()` seeds a demo set, stats, and achievements if missing.
+- `getSets()`/`saveSets()` read and normalize sets; mirror key is maintained.
+- Stats helpers: `incrementCardsStudied`, `addStudyMinutes`, `incrementSetsCreated`.
 
-### Target Audience
-- **Primary**: High school and college students (ages 16-25)
-- **Secondary**: Educators and teachers creating study materials
-- **Tertiary**: Lifelong learners and professionals seeking skill development
-- **Demographics**: Tech-savvy individuals who prefer digital learning tools over traditional methods
+Important: Because storage is local, data does not sync across devices/browsers. Clearing site data or using private mode resets progress.
 
-### Graphics
-- **Design Style**: Modern, clean, and minimalist with glassmorphism effects
-- **Visual Elements**: 
-  - Gradient backgrounds and cards with subtle transparency
-  - Rounded corners (border-radius: 2xl/3xl) for modern appearance
-  - Icon-based navigation using Lucide React icons
-  - High-quality stock images from Unsplash for study sets
-  - Animated progress bars and interactive elements
-- **Layout**: Card-based design with responsive grid layouts
-- **Typography**: Clean, readable fonts with proper hierarchy
+## Features by Page
+- Home (`index.html`, `pages/home.html`)
+  - Hero section, quick stats (streak, study time, sets), recent sets grid.
+  - Current nav highlighting and subtle entrance animations.
 
-### Color
-**Primary Color Palette:**
-- **Purple Gradient**: `#a855f7` to `#ec4899` (from-purple-500 to-pink-500)
-- **Purple Shades**: 
-  - Light: `#f3e8ff` (purple-50)
-  - Medium: `#a855f7` (purple-500)
-  - Dark: `#7c3aed` (purple-600)
-- **Pink Shades**:
-  - Light: `#fdf2f8` (pink-50)
-  - Medium: `#ec4899` (pink-500)
-- **Background Gradients**:
-  - Main: `from-purple-50 via-pink-50 to-blue-50`
-  - Cards: `bg-white/70` with backdrop blur
-- **Accent Colors**:
-  - Blue: `#3b82f6` (blue-500)
-  - Green: `#10b981` (emerald-500)
-  - Orange: `#f59e0b` (amber-500)
-  - Red: `#ef4444` (red-500)
+- Create (`pages/create.html`)
+  - Manual set creation: title, subject, description, dynamic card rows (add/remove).
+  - Import from `.txt`: lines as `TERM, DEFINITION`. Empty/invalid lines skipped; subject/title defaults if blank. Success toast: “Imported study set successfully!”.
+  - Success toast on manual save: “Created study successfully!”.
 
-**Hex Codes:**
-- Primary Purple: `#a855f7`
-- Primary Pink: `#ec4899`
-- Background Purple: `#faf5ff`
-- Background Pink: `#fdf2f8`
-- Background Blue: `#eff6ff`
-- Text Gray: `#374151`
-- Light Gray: `#6b7280`
+- Study (`pages/study.html`)
+  - Modes: Flashcards, Quiz (multiple choice), Matching.
+  - Flip, next/prev, shuffle, progress bar, keyboard controls (Enter/Space to flip; arrows to navigate).
+  - Add custom card to current set; session minutes tracked on unload.
 
-### Accessibility
-- **Responsive Design**: Fully responsive layout that works on desktop, tablet, and mobile devices
-- **Color Contrast**: High contrast ratios for text readability
-- **Keyboard Navigation**: Full keyboard accessibility for all interactive elements
-- **Screen Reader Support**: Proper ARIA labels and semantic HTML structure
-- **Touch-Friendly**: Large touch targets (minimum 44px) for mobile users
-- **Alternative Text**: Descriptive alt text for all images
-- **Focus Indicators**: Clear visual focus indicators for keyboard navigation
-- **Font Sizing**: Scalable text that respects user preferences
+- Discover (`pages/search.html`)
+  - Search text + subject filter over `sf_sets`.
+  - Edit (modal) and Delete actions. Success toasts on update/delete.
 
-### Project Timeline
-**Midterm (Layout Phase) - Weeks 1-8:**
-- Week 1-2: Project planning and wireframing
-- Week 3-4: Design system development and color palette
-- Week 5-6: Homepage and navigation layout
-- Week 7-8: Study set creation and viewing interfaces
+- Profile (`pages/profile.html`)
+  - Stats overview and achievements grid; catalog ensured and unlocks checked.
 
-**Finals (Coded Implementation) - Weeks 9-16:**
-- Week 9-10: Core functionality implementation
-- Week 11-12: Search and discovery features
-- Week 13-14: User profiles and progress tracking
-- Week 15-16: Testing, optimization, and deployment
+## JavaScript Modules
+- `scripts/main.js`
+  - Bootstraps defaults, sets footer year, highlights nav, renders recent sets on landing, simple button press feedback.
+  - Provides global `window.SFUI.showSuccessMessage(text, { durationMs? })` – accessible toast at bottom‑right (`role="alert"`, `aria-live="polite"`).
 
-## Style Guide
+- `scripts/storage.js`
+  - LocalStorage access, normalization, stats helpers, and export as `window.SFStorage`.
 
-### Typography
-- **Headings**: Bold, gradient text using `bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent`
-- **Body Text**: Clean, readable fonts with proper line height (1.5)
-- **Font Weights**: 
-  - Normal: 400
-  - Medium: 500
-  - Bold: 700
+- `scripts/import_from_txt.js`
+  - Parses `.txt` file, builds cards, creates a set, updates stats/achievements, shows success toast, and optionally navigates to the set.
 
-### Component Design
-- **Cards**: Rounded corners (rounded-3xl), subtle shadows, glassmorphism effect
-- **Buttons**: Gradient backgrounds with hover effects and smooth transitions
-- **Input Fields**: Rounded corners, focus states with purple ring
-- **Navigation**: Icon-based with clear labels and active states
+- `scripts/flashcards.js`, `scripts/quiz.js`, `scripts/matching.js`
+  - Implement study modes and UI updates; switcher handled in `flashcards.js`.
 
-### Spacing
-- **Padding**: Consistent 6-unit spacing (p-6) for main containers
-- **Margins**: 8-unit spacing (space-y-8) between major sections
-- **Gaps**: 4-6 unit gaps for grid layouts
+- `scripts/discover.js`
+  - Edit modal rendering/handlers; delete flow; uses `SFUI.showSuccessMessage` for feedback.
 
-### Interactive Elements
-- **Hover Effects**: Scale transforms (hover:scale-105) and shadow changes
-- **Transitions**: Smooth transitions (transition-all) for all interactive elements
-- **Loading States**: Skeleton loaders and progress indicators
-- **Feedback**: Visual feedback for user actions with color changes and animations
+- `scripts/achievements.js`
+  - Achievement catalog, unlock helpers, visual announcement, and checks exposed via `window.SFAchievements`.
 
-### Layout Principles
-- **Grid System**: CSS Grid and Flexbox for responsive layouts
-- **Container Widths**: Max-width constraints (max-w-4xl, max-w-6xl) for content
-- **Mobile-First**: Responsive design starting from mobile breakpoints
-- **Consistent Spacing**: Uniform spacing system throughout the application
+## Styling System
+- Global design tokens and components in `styles/globals.css` (colors, spacing, utilities, buttons, panels, progress, toasts, mobile bottom nav).
+- Page styles: `create.css`, `flashcards.css`, `quiz.css`, `matching.css`, `memory.css`, `modal.css`, `home.css`.
+- Utilities include layout (`.d-flex`, `.ai-center`, `.jc-between`, `.grid-hero`), spacing (`.mt-*`, `.mb-*`, `.gap-*`), typography (`.fs-*`, `.fw-800`), forms (`.form-control`), and status helpers.
+- Accessible focus rings and sufficient text contrast are enabled by default.
 
-This documentation provides a comprehensive overview of StudyFlow's design philosophy, technical implementation, and user experience considerations, serving as a guide for both midterm layout evaluation and final coded implementation.
+Favicon
+- Defined on all pages using `assets/sf_logo.png` via `<link rel="icon" href="..." type="image/png" />`.
+
+## Accessibility
+- Semantics and ARIA: regions labeled (nav, main, sections), progress bars expose `aria-valuenow`, live regions for toasts/feedback.
+- Keyboard: focus-visible styles, keyboard support for flashcard actions, modal focus management on open.
+- Contrast: colors tuned for readability; buttons and inputs have visible hover/focus states.
+
+## Deployment
+- Static site; no build step required. Host the repository with GitHub Pages.
+- Open `index.html` locally or via Pages URL. Data persists per device/browser.
+
+## Maintenance & Contributing
+- Keep all styling in external CSS. Prefer utility classes over inline styles.
+- Reuse toasts (`SFUI.showSuccessMessage`) for feedback; do not introduce `alert()` for success.
+- When changing set schema, add normalization in `saveSets()` and/or a migration in `initDefaults()`.
+- Test flows: create/import/edit/delete sets; run a short study session; verify achievements unlock; inspect DevTools → Application → Local Storage for keys.
+
+## Known Limitations
+- No account system or server sync; localStorage only.
+- Quota limits vary by browser (~5–10 MB per origin).
+- Private browsing/incognito may restrict storage.
