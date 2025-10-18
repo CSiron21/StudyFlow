@@ -46,18 +46,14 @@
     sets[i] = { ...sets[i], title, subject, description, cards: workingCards.map(c => ({ term: c.term.trim(), definition: c.definition.trim() })) };
     window.SFStorage.saveSets(sets);
     closeModal();
-    toast('Study set updated successfully.');
+    if (window.SFUI && typeof window.SFUI.showSuccessMessage === 'function') {
+      window.SFUI.showSuccessMessage('Study set updated successfully.');
+    }
     // re-render via inline render() in page scope
     if (window.renderDiscover) window.renderDiscover();
   });
 
-  function toast(message) {
-    const t = document.createElement('div');
-    t.className = 'achievement-toast show';
-    t.textContent = message;
-    document.body.appendChild(t);
-    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 1800);
-  }
+  // unified success feedback via global SFUI
 
   function onActionClick(e) {
     const btn = e.target.closest('button[data-action]');
@@ -71,7 +67,9 @@
       if (!confirm('Are you sure you want to delete this set?')) return;
       const next = sets.filter(s => s.id !== id);
       window.SFStorage.saveSets(next);
-      toast('Study set deleted successfully.');
+      if (window.SFUI && typeof window.SFUI.showSuccessMessage === 'function') {
+        window.SFUI.showSuccessMessage('Study set deleted successfully.');
+      }
       if (window.renderDiscover) window.renderDiscover();
     } else if (action === 'edit') {
       openModal(set);
@@ -90,12 +88,10 @@
       return `
         <div class="panel" data-idx="${idx}">
           <div class="grid cols-2">
-            <label>Term<input type="text" class="card-term" value="${escapeHtml(c.term)}" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" /></label>
-            <label>Definition<input type="text" class="card-def" value="${escapeHtml(c.definition)}" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" /></label>
+            <label>Term<input type="text" class="card-term form-control" value="${escapeHtml(c.term)}" /></label>
+            <label>Definition<input type="text" class="card-def form-control" value="${escapeHtml(c.definition)}" /></label>
           </div>
-          <div style="margin-top:8px; display:flex; gap:8px; justify-content:flex-end;">
-            <button type="button" class="btn secondary btn-del-card" aria-label="Delete card">Delete</button>
-          </div>
+          <div class="mt-8 d-flex gap-8 jc-end"><button type="button" class="btn secondary btn-del-card" aria-label="Delete card">Delete</button></div>
         </div>`;
     }).join('');
     // Wire inputs and delete buttons

@@ -72,15 +72,15 @@ function renderSetCard(set) {
   const safeDesc = escapeHtml(set.description || '');
   return `
   <article class="panel" aria-label="Study set: ${safeTitle}">
-    <header style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px;">
-      <h4 style="margin:0; font-weight:800;">${safeTitle}</h4>
+    <header class="d-flex ai-center jc-between gap-12 mb-8">
+      <h4 class="fw-800" style="margin:0;">${safeTitle}</h4>
       <span class="badge" aria-label="${(set.cards||[]).length} cards">${(set.cards||[]).length} cards</span>
     </header>
-    <p class="muted" style="margin-bottom:12px;">${safeDesc}</p>
+    <p class="muted mb-12">${safeDesc}</p>
     <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent}">
       <div class="fill" style="width:${percent}%"></div>
     </div>
-    <div style="margin-top:12px; display:flex; gap:8px;">
+    <div class="mt-12 d-flex gap-8">
       <a class="btn secondary" href="pages/study.html?set=${encodeURIComponent(set.id)}" aria-label="Study ${safeTitle}">Study</a>
     </div>
   </article>`;

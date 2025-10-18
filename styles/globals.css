@@ -305,18 +305,24 @@ a:hover { text-decoration: underline; }
 .mt-8 { margin-top: 8px; }
 .mt-12 { margin-top: 12px; }
 .mt-16 { margin-top: 16px; }
+.mb-4 { margin-bottom: 4px; }
 .mb-8 { margin-bottom: 8px; }
 .mb-12 { margin-bottom: 12px; }
 .mb-16 { margin-bottom: 16px; }
 .my-8 { margin-top: 8px; margin-bottom: 8px; }
+.m-0 { margin: 0; }
 .pb-80 { padding-bottom: 80px; }
 .text-center { text-align: center; }
 .w-100 { width: 100%; }
 .h-100 { height: 100%; }
+.size-40 { width: 40px; height: 40px; }
 .size-48 { width: 48px; height: 48px; }
 .size-56 { width: 56px; height: 56px; }
 .minh-20 { min-height: 20px; }
 .minh-100 { min-height: 100px; }
+
+/* Visual utilities */
+.opacity-60 { opacity: 0.6; }
 
 /* Grid helpers (page-specific layout variants) */
 .grid-hero { grid-template-columns: 1.4fr 1fr; align-items: center; gap: 24px; }
