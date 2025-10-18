@@ -194,23 +194,7 @@ p { color: var(--text-light); margin: 0; }
 }
 .nav-link:hover { background: rgba(255,255,255,0.8); color: #7c3aed; }
 
-/* Mobile hamburger and drawer */
-.mobile-hamburger {
-  position: fixed; top: 12px; left: 12px; z-index: 60; display: none; border: 1px solid #e9d5ff; background: white; color: var(--text-dark);
-  border-radius: 12px; padding: 10px 12px; font-weight: 800; box-shadow: var(--shadow-sm);
-}
-.mobile-hamburger:hover { box-shadow: var(--shadow-md); }
-
-.mobile-drawer {
-  position: fixed; inset: 0; z-index: 55; display: none; background: rgba(0,0,0,0.2);
-}
-.mobile-drawer.open { display: block; }
-.mobile-drawer .drawer-panel {
-  width: 80%; max-width: 320px; height: 100%; background: rgba(255,255,255,0.92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-  border-right: 1px solid #ede9fe; transform: translateX(-100%); transition: transform var(--transition-med) ease;
-}
-.mobile-drawer.open .drawer-panel { transform: translateX(0); }
-.mobile-drawer .drawer-panel .container { padding-top: 20px; }
+/* Mobile drawer removed */
 
 /* Mobile bottom nav */
 .mobile-nav {
