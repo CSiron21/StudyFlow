@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StudyFlow — Home</title>
+    <link rel="stylesheet" href="../styles/globals.css" />
+    <link rel="stylesheet" href="../styles/home.css" />
+  </head>
+  <body>
+    <button id="hamburger" class="mobile-hamburger" aria-label="Open navigation" aria-controls="mobile-drawer" aria-expanded="false">☰</button>
+    <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+      <div class="drawer-panel">
+        <div class="container">
+          <nav aria-label="Mobile Drawer Navigation">
+            <ul class="nav-list" role="list">
+              <li><a class="nav-link" href="home.html">Home</a></li>
+              <li><a class="nav-link" href="study.html">Study</a></li>
+              <li><a class="nav-link" href="create.html">Create</a></li>
+              <li><a class="nav-link" href="search.html">Discover</a></li>
+              <li><a class="nav-link" href="profile.html">Profile</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="app">
+      <aside class="sidebar" aria-label="Primary Navigation">
+        <div class="container">
+          <div class="brand">
+            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" style="width:100%;height:100%;object-fit:contain;" /></div>
+            <div>
+              <h1>StudyFlow</h1>
+              <p class="muted">Your Smooth Path to Mastery</p>
+            </div>
+          </div>
+          <nav>
+            <ul class="nav-list" role="list">
+              <li><a class="nav-link" href="home.html" aria-label="Home">Home</a></li>
+              <li><a class="nav-link" href="study.html" aria-label="Study">Study</a></li>
+              <li><a class="nav-link" href="create.html" aria-label="Create">Create</a></li>
+              <li><a class="nav-link" href="search.html" aria-label="Discover">Discover</a></li>
+              <li><a class="nav-link" href="profile.html" aria-label="Profile">Profile</a></li>
+            </ul>
+          </nav>
+          
+        </div>
+      </aside>
+      <main>
+        <header class="container">
+          <div class="hero">
+            <div class="grid" style="grid-template-columns: 1.4fr 1fr; align-items: center; gap: 24px;">
+              <div>
+                <h2 class="fade-seq" style="font-size:clamp(28px,3vw,40px); font-weight:800; background: linear-gradient(90deg, var(--color-purple), var(--color-pink)); -webkit-background-clip: text; background-clip: text; color: transparent;">Ready to learn something new?</h2>
+                <p class="fade-seq" style="font-size: 18px; margin: 8px 0 16px;">Continue your learning journey or create a new study set to master any topic.</p>
+                <div class="actions fade-seq">
+                  <a class="btn icon" href="create.html" aria-label="Create Study Set"><span>➕</span><span>Create Study Set</span></a>
+                  <a class="btn secondary icon" href="study.html" aria-label="Get started studying"><span>✨</span><span>Get Started</span></a>
+                </div>
+              </div>
+              <div>
+                <figure class="frame fade-seq" aria-labelledby="hero-caption">
+                  <img src="https://images.unsplash.com/photo-1562247527-8b6db642ee3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkeSUyMGJvb2tzJTIwcGFzdGVsfGVufDF8fHx8MTc1NzcwMjI1OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Stack of study books and notes on a desk" />
+                  <figcaption id="hero-caption" class="visually-hidden">Inspiration to keep studying with StudyFlow</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </header>
+        <section class="container" aria-label="Quick Stats">
+          <div class="grid cols-3">
+            <div class="panel"><div style="display:flex; align-items:center; gap:16px;"><div class="brand-logo" aria-hidden="true" style="background:linear-gradient(90deg,#a78bfa,#fb7185); width:48px; height:48px;">📈</div><div><p style="font-size:24px; font-weight:800; color:var(--text-dark);" id="stat-streak">0</p><p class="muted">Day Streak</p></div></div></div>
+            <div class="panel blue"><div style="display:flex; align-items:center; gap:16px;"><div class="brand-logo" aria-hidden="true" style="background:linear-gradient(90deg,#60a5fa,#34d399); width:48px; height:48px;">⏱</div><div><p style="font-size:24px; font-weight:800; color:var(--text-dark);" id="stat-time">0m</p><p class="muted">Study Time</p></div></div></div>
+            <div class="panel green"><div style="display:flex; align-items:center; gap:16px;"><div class="brand-logo" aria-hidden="true" style="background:linear-gradient(90deg,#22c55e,#10b981); width:48px; height:48px;">🎯</div><div><p style="font-size:24px; font-weight:800; color:var(--text-dark);" id="stat-sets">0</p><p class="muted">Sets Mastered</p></div></div></div>
+          </div>
+        </section>
+        <section class="container" aria-label="Recent Study Sets">
+          <div class="panel">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;"><h3 style="font-weight:800;">Recent Study Sets</h3><a href="search.html" class="muted">View all</a></div>
+            <div id="recent-sets" class="grid cols-3" aria-live="polite"></div>
+          </div>
+        </section>
+        <footer class="container" role="contentinfo" style="padding-bottom: 80px;">
+          <p class="muted">© <span id="year"></span> StudyFlow. All rights reserved.</p>
+        </footer>
+      </main>
+    </div>
+    <nav class="mobile-nav" aria-label="Mobile Navigation"><div class="nav"><a href="home.html" aria-label="Home">Home</a><a href="study.html" aria-label="Study">Study</a><a href="create.html" aria-label="Create">Create</a><a href="search.html" aria-label="Discover">Discover</a><a href="profile.html" aria-label="Profile">Profile</a></div></nav>
+    <script src="../scripts/storage.js"></script>
+    <script src="../scripts/achievements.js"></script>
+    <script src="../scripts/main.js"></script>
+  </body>
+  </html>
+
+

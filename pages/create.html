@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StudyFlow — Create Set</title>
+    <link rel="stylesheet" href="../styles/globals.css" />
+    <link rel="stylesheet" href="../styles/create.css" />
+  </head>
+  <body>
+    <button id="hamburger" class="mobile-hamburger" aria-label="Open navigation" aria-controls="mobile-drawer" aria-expanded="false">☰</button>
+    <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+      <div class="drawer-panel">
+        <div class="container">
+          <nav aria-label="Mobile Drawer Navigation">
+            <ul class="nav-list" role="list">
+              <li><a class="nav-link" href="home.html">Home</a></li>
+              <li><a class="nav-link" href="study.html">Study</a></li>
+              <li><a class="nav-link" href="create.html">Create</a></li>
+              <li><a class="nav-link" href="search.html">Discover</a></li>
+              <li><a class="nav-link" href="profile.html">Profile</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="app">
+      <aside class="sidebar" aria-label="Primary Navigation">
+        <div class="container">
+          <div class="brand">
+            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" style="width:100%;height:100%;object-fit:contain;" /></div>
+            <div>
+              <h1>StudyFlow</h1>
+              <p class="muted">Your Smooth Path to Mastery</p>
+            </div>
+          </div>
+          <nav>
+            <ul class="nav-list" role="list">
+              <li><a class="nav-link" href="home.html">Home</a></li>
+              <li><a class="nav-link" href="study.html">Study</a></li>
+              <li><a class="nav-link" href="create.html">Create</a></li>
+              <li><a class="nav-link" href="search.html">Discover</a></li>
+              <li><a class="nav-link" href="profile.html">Profile</a></li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+      <main>
+        <section class="container" aria-label="Create Study Set">
+          <div class="panel">
+            <h2 style="font-size:28px; font-weight:800;">Create Study Set</h2>
+            <p class="muted">Build your own flashcard set to master any topic.</p>
+          </div>
+        </section>
+
+        <section class="container" aria-label="Study Set Information">
+          <div class="panel">
+            <div class="grid cols-2">
+              <label>Title<input id="set-title" type="text" placeholder="e.g., Spanish Vocabulary - Chapter 5" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" required /></label>
+              <label>Subject<select id="set-subject" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;">
+                <option value="">Select a subject</option>
+                <option>Mathematics</option>
+                <option>Science</option>
+                <option>History</option>
+                <option>Language</option>
+                <option>Literature</option>
+                <option>Geography</option>
+                <option>Computer Science</option>
+                <option>Art</option>
+                <option>Music</option>
+                <option>Other</option>
+              </select></label>
+            </div>
+            <label>Description<textarea id="set-description" placeholder="What is this set about?" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px; min-height:100px;"></textarea></label>
+          </div>
+        </section>
+
+        <section class="container" aria-label="Import from Text File">
+          <div class="panel import-panel">
+            <h3 style="font-weight:800; margin-bottom:8px;">Import from Text File</h3>
+            <p class="import-note" id="import-note">Format each line as: TERM, DEFINITION</p>
+            <div class="import-actions" style="margin:8px 0;">
+              <input type="file" id="txt-upload" accept=".txt" aria-label="Upload .txt study file" />
+              <button class="btn" id="btn-import" aria-label="Create Set from File">Create Set from File</button>
+            </div>
+            <div id="import-feedback" class="muted" role="status" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section class="container" aria-label="Cards">
+          <div class="panel" id="cards-panel">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h3 style="font-weight:800;">Cards</h3>
+              <button class="btn" id="btn-add-card">Add Card</button>
+            </div>
+            <div id="cards-list" class="grid cols-2"></div>
+          </div>
+        </section>
+
+        <section class="container" aria-label="Save">
+          <div class="panel" style="display:flex; gap:8px;">
+            <button class="btn" id="btn-save">Save Set</button>
+            <a class="btn secondary" href="study.html">Go to Study</a>
+          </div>
+        </section>
+
+        <footer class="container" role="contentinfo" style="padding-bottom: 80px;">
+          <p class="muted">© <span id="year"></span> StudyFlow. All rights reserved.</p>
+        </footer>
+      </main>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Mobile Navigation"><div class="nav"><a href="home.html">Home</a><a href="study.html">Study</a><a href="create.html">Create</a><a href="search.html">Discover</a><a href="profile.html">Profile</a></div></nav>
+
+    <script src="../scripts/storage.js"></script>
+    <script>
+      // Card UI template and save logic
+      const cardsList = document.getElementById('cards-list');
+      const btnAdd = document.getElementById('btn-add-card');
+      const btnSave = document.getElementById('btn-save');
+
+      function addCardRow(term = '', definition = '') {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'panel';
+        wrapper.innerHTML = `
+          <div class="grid cols-2">
+            <label>Term<input type="text" class="in-term" value="${escapeHtml(term)}" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" required /></label>
+            <label>Definition<input type="text" class="in-def" value="${escapeHtml(definition)}" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" required /></label>
+          </div>
+          <div style="margin-top:8px; display:flex; gap:8px;">
+            <button type="button" class="btn secondary btn-remove">Remove</button>
+          </div>
+        `;
+        const removeBtn = wrapper.querySelector('.btn-remove');
+        removeBtn.addEventListener('click', () => wrapper.remove());
+        cardsList.appendChild(wrapper);
+      }
+
+      function escapeHtml(str) { return String(str).replace(/[&<>"]|'/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m])); }
+
+      btnAdd.addEventListener('click', () => addCardRow());
+      // Start with two blank cards
+      addCardRow(); addCardRow();
+
+      btnSave.addEventListener('click', () => {
+        const title = document.getElementById('set-title').value.trim();
+        const subject = document.getElementById('set-subject').value;
+        const description = document.getElementById('set-description').value.trim();
+        if (!title || !subject) { alert('Please enter a title and select a subject.'); return; }
+        const rows = Array.from(cardsList.children);
+        const cards = rows.map((row) => ({
+          term: row.querySelector('.in-term').value.trim(),
+          definition: row.querySelector('.in-def').value.trim(),
+        })).filter(c => c.term && c.definition);
+        if (cards.length === 0) { alert('Please add at least one card.'); return; }
+
+        const sets = window.SFStorage.getSets();
+        const newSet = { id: 'set-' + Date.now(), title, subject, description, createdAt: Date.now(), cards };
+        sets.unshift(newSet);
+        window.SFStorage.saveSets(sets);
+        window.SFStorage.incrementSetsCreated();
+        window.SFAchievements.checkCreatorAchievement();
+        if (window.SFUI && typeof window.SFUI.showSuccessMessage === 'function') {
+          window.SFUI.showSuccessMessage('Created study successfully!');
+        }
+      });
+    </script>
+    <script src="../scripts/import_from_txt.js"></script>
+    <script src="../scripts/main.js"></script>
+  </body>
+  </html>
+
+

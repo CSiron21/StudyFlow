@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StudyFlow — Study</title>
+    <link rel="stylesheet" href="../styles/globals.css" />
+    <link rel="stylesheet" href="../styles/flashcards.css" />
+    <link rel="stylesheet" href="../styles/quiz.css" />
+    <link rel="stylesheet" href="../styles/matching.css" />
+  </head>
+  <body>
+    <button id="hamburger" class="mobile-hamburger" aria-label="Open navigation" aria-controls="mobile-drawer" aria-expanded="false">☰</button>
+    <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+      <div class="drawer-panel">
+        <div class="container">
+          <nav aria-label="Mobile Drawer Navigation">
+            <ul class="nav-list" role="list">
+              <li><a class="nav-link" href="home.html" aria-label="Home">Home</a></li>
+              <li><a class="nav-link" href="study.html" aria-label="Study">Study</a></li>
+              <li><a class="nav-link" href="create.html" aria-label="Create">Create</a></li>
+              <li><a class="nav-link" href="search.html" aria-label="Discover">Discover</a></li>
+              <li><a class="nav-link" href="profile.html" aria-label="Profile">Profile</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="app">
+      <aside class="sidebar" aria-label="Primary Navigation">
+        <div class="container">
+          <div class="brand">
+            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" style="width:100%;height:100%;object-fit:contain;" /></div>
+            <div>
+              <h1>StudyFlow</h1>
+              <p class="muted">Your Smooth Path to Mastery</p>
+            </div>
+          </div>
+          <nav>
+            <ul class="nav-list" role="list">
+              <li><a class="nav-link" href="home.html" aria-label="Home">Home</a></li>
+              <li><a class="nav-link" href="study.html" aria-label="Study">Study</a></li>
+              <li><a class="nav-link" href="create.html" aria-label="Create">Create</a></li>
+              <li><a class="nav-link" href="search.html" aria-label="Discover">Discover</a></li>
+              <li><a class="nav-link" href="profile.html" aria-label="Profile">Profile</a></li>
+            </ul>
+          </nav>
+          
+        </div>
+      </aside>
+      <main>
+        <section class="container" aria-label="Study Header">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <div>
+              <h2 id="set-title" style="font-size:28px; font-weight:800;">Study</h2>
+              <p class="muted"><span id="card-count">0</span> cards</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="container" aria-label="Study Mode">
+          <div class="panel" style="display:inline-flex; gap:8px; align-items:center;">
+            <button class="btn secondary" data-mode="flashcards" aria-pressed="true">Flashcards</button>
+            <button class="btn secondary" data-mode="quiz" aria-pressed="false">Quiz - Multiple Choice</button>
+            <button class="btn secondary" data-mode="matching" aria-pressed="false">Quiz - Matching Type</button>
+          </div>
+        </section>
+
+        <section class="container" aria-label="Progress" id="flash-progress">
+          <div class="panel">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <span class="muted">Progress</span>
+              <span class="muted" id="progress-label">Card 1 of 1</span>
+            </div>
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar">
+              <div class="fill" style="width:0%"></div>
+            </div>
+            <div style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+              <button class="btn secondary" id="btn-reset" aria-label="Reset progress">Reset Progress</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="container" aria-label="Flashcards" id="flash-container">
+          <div class="flashcard" id="flashcard" aria-live="polite" aria-label="Flashcard" tabindex="0">
+            <div class="inner" id="flashcard-inner">
+              <div class="front" id="card-front" aria-label="Question"></div>
+              <div class="back" id="card-back" aria-label="Answer"></div>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; justify-content:center; margin-top:16px;">
+            <button class="btn secondary" id="btn-prev" aria-label="Previous card">Previous</button>
+            <button class="btn" id="btn-flip" aria-label="Flip card">Flip</button>
+            <button class="btn secondary" id="btn-next" aria-label="Next card">Next</button>
+            <button class="btn secondary" id="btn-shuffle" aria-label="Shuffle cards">Shuffle</button>
+          </div>
+          <p class="muted" style="text-align:center; margin-top:8px;">Session studied: <span id="session-count">0</span> cards</p>
+        </section>
+
+        <section class="container" aria-label="Create Custom Card" id="flash-create">
+          <div class="panel">
+            <h3 style="font-weight:800; margin-bottom:8px;">Add a Custom Card</h3>
+            <form id="create-card-form" aria-labelledby="create-card-title">
+              <div class="grid cols-2">
+                <label>
+                  <span class="visually-hidden" id="create-card-title">Term</span>
+                  <input aria-labelledby="create-card-title" type="text" id="input-term" placeholder="Term" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" required />
+                </label>
+                <label>
+                  <span class="visually-hidden">Definition</span>
+                  <input aria-label="Definition" type="text" id="input-definition" placeholder="Definition" style="width:100%; padding:12px; border:1px solid #e9d5ff; border-radius:12px;" required />
+                </label>
+              </div>
+              <div style="margin-top:12px; display:flex; gap:8px;">
+                <button class="btn" type="submit" aria-label="Add card">Add Card</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Quiz Mode Section -->
+        <section class="container" aria-label="Quiz Mode" id="quiz-section" hidden>
+          <div class="panel quiz-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <span class="muted" id="quiz-progress">Question 1 of 1</span>
+              <span class="muted" id="quiz-score">Score: 0/0</span>
+            </div>
+            <h3 id="quiz-question" style="font-weight:800; margin-bottom:12px;"></h3>
+            <div id="quiz-options" class="quiz-options" role="group" aria-label="Answer choices"></div>
+            <div id="quiz-feedback" class="muted" role="status" aria-live="polite" style="min-height:20px; margin-top:8px;"></div>
+            <div style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+              <button class="btn secondary" id="quiz-next" disabled>Next</button>
+            </div>
+          </div>
+          <div class="panel" id="quiz-result" hidden>
+            <h3 style="font-weight:800; margin-bottom:8px;">Quiz Results</h3>
+            <p class="muted" id="quiz-summary"></p>
+            <div style="margin-top:12px; display:flex; gap:8px;">
+              <button class="btn" id="quiz-retry">Retry Quiz</button>
+              <button class="btn secondary" id="quiz-back">Back to Study</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Matching Type Quiz Section -->
+        <section class="container" aria-label="Quiz - Matching Type" id="matching-section" hidden>
+          <div class="panel">
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              <h3 style="font-weight:800;">Match terms to the correct definitions</h3>
+              <span class="muted" id="match-progress"></span>
+            </div>
+            <div id="match-empty" class="muted" hidden>No terms available for Matching Type Quiz.</div>
+            <div class="matching-grid" id="matching-grid">
+              <div>
+                <h4 class="muted" style="margin-bottom:8px;">Column A — Terms</h4>
+                <div id="match-terms" class="match-list" role="list"></div>
+              </div>
+              <div>
+                <h4 class="muted" style="margin-bottom:8px;">Column B — Definitions</h4>
+                <div id="match-defs" class="match-list" role="list"></div>
+              </div>
+            </div>
+            <div id="match-status" class="muted" role="status" aria-live="polite" style="margin-top:12px; min-height:20px;"></div>
+          </div>
+        </section>
+
+        <footer class="container" role="contentinfo" style="padding-bottom: 80px;">
+          <p class="muted">© <span id="year"></span> StudyFlow. All rights reserved.</p>
+        </footer>
+      </main>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Mobile Navigation"><div class="nav"><a href="home.html" aria-label="Home">Home</a><a href="study.html" aria-label="Study">Study</a><a href="create.html" aria-label="Create">Create</a><a href="search.html" aria-label="Discover">Discover</a><a href="profile.html" aria-label="Profile">Profile</a></div></nav>
+
+    <script src="../scripts/storage.js"></script>
+    <script src="../scripts/achievements.js"></script>
+    <script src="../scripts/main.js"></script>
+    <script src="../scripts/flashcards.js"></script>
+    <script src="../scripts/quiz.js"></script>
+    <script src="../scripts/matching.js"></script>
+  </body>
+  </html>
+
+

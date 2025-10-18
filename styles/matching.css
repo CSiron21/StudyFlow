@@ -1,0 +1,20 @@
+/* Matching Type Quiz styles */
+
+.matching-grid {
+  display: grid; gap: 16px; grid-template-columns: 1fr 1fr; align-items: start; margin-top: 8px;
+}
+@media (max-width: 900px) { .matching-grid { grid-template-columns: 1fr; } }
+
+.match-list { display: grid; gap: 10px; }
+.match-item {
+  display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid #e9d5ff; border-radius: 12px; background: white; cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease, transform 150ms ease, box-shadow 250ms ease;
+}
+.match-item:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.match-item[aria-selected="true"] { border-color: #a855f7; background: #faf5ff; }
+.match-item.correct { border-color: #86efac; background: #ecfdf5; }
+.match-item.incorrect { border-color: #fecaca; background: #fef2f2; }
+
+.match-text { overflow-wrap: anywhere; word-break: break-word; }
+
+

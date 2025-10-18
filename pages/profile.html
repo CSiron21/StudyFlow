@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StudyFlow — Profile</title>
+    <link rel="stylesheet" href="../styles/globals.css" />
+    <link rel="stylesheet" href="../styles/profile.css" />
+  </head>
+  <body>
+    <button id="hamburger" class="mobile-hamburger" aria-label="Open navigation" aria-controls="mobile-drawer" aria-expanded="false">☰</button>
+    <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+      <div class="drawer-panel">
+        <div class="container">
+          <nav aria-label="Mobile Drawer Navigation">
+            <ul class="nav-list" role="list">
+              <li><a class="nav-link" href="home.html">Home</a></li>
+              <li><a class="nav-link" href="study.html">Study</a></li>
+              <li><a class="nav-link" href="create.html">Create</a></li>
+              <li><a class="nav-link" href="search.html">Discover</a></li>
+              <li><a class="nav-link" href="profile.html">Profile</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="app">
+      <aside class="sidebar" aria-label="Primary Navigation">
+        <div class="container">
+          <div class="brand">
+            <div class="brand-logo"><img src="../assets/sf_logo.png" alt="StudyFlow logo" style="width:100%;height:100%;object-fit:contain;" /></div>
+            <div>
+              <h1>StudyFlow</h1>
+              <p class="muted">Your Smooth Path to Mastery</p>
+            </div>
+          </div>
+          <nav>
+            <ul class="nav-list" role="list">
+              <li><a class="nav-link" href="home.html">Home</a></li>
+              <li><a class="nav-link" href="study.html">Study</a></li>
+              <li><a class="nav-link" href="create.html">Create</a></li>
+              <li><a class="nav-link" href="search.html">Discover</a></li>
+              <li><a class="nav-link" href="profile.html">Profile</a></li>
+            </ul>
+          </nav>
+          
+        </div>
+      </aside>
+      <main>
+        <section class="container" aria-label="Profile Header">
+          <div class="panel">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div class="brand-logo" aria-hidden="true" style="width:56px; height:56px;">👤</div>
+              <div>
+                <h2 style="font-size:28px; font-weight:800;">Your Progress</h2>
+                <p class="muted">Track your study streak, time, sets, and achievements.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="container" aria-label="Stats Cards">
+          <div class="grid cols-2">
+            <div class="panel">
+              <p class="muted">Day Streak</p>
+              <p id="stat-streak" style="font-size:28px; font-weight:800;">0</p>
+            </div>
+            <div class="panel">
+              <p class="muted">Total Study Time</p>
+              <p id="stat-time" style="font-size:28px; font-weight:800;">0m</p>
+            </div>
+            <div class="panel">
+              <p class="muted">Sets Created</p>
+              <p id="stat-sets" style="font-size:28px; font-weight:800;">0</p>
+            </div>
+            <div class="panel">
+              <p class="muted">Cards Reviewed</p>
+              <p id="stat-cards" style="font-size:28px; font-weight:800;">0</p>
+            </div>
+          </div>
+        </section>
+
+        
+
+        <section class="container" aria-label="Achievements">
+          <div class="panel">
+            <h3 style="font-weight:800; margin-bottom:8px;">Achievements</h3>
+            <p class="muted" style="margin-bottom:8px;">Hover an item to see how to unlock it.</p>
+            <div id="achievements" class="grid cols-3"></div>
+          </div>
+        </section>
+
+        <footer class="container" role="contentinfo" style="padding-bottom: 80px;">
+          <p class="muted">© <span id="year"></span> StudyFlow. All rights reserved.</p>
+        </footer>
+      </main>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Mobile Navigation"><div class="nav"><a href="home.html">Home</a><a href="study.html">Study</a><a href="create.html">Create</a><a href="search.html">Discover</a><a href="profile.html">Profile</a></div></nav>
+
+    <script src="../scripts/storage.js"></script>
+    <script src="../scripts/achievements.js"></script>
+    <script src="../scripts/main.js"></script>
+    <script>
+      const stats = window.SFStorage.getStats();
+      const cards = stats.totalCardsStudied || 0;
+      const streak = stats.studyStreakDays || 0;
+      const minutes = stats.totalStudyMinutes || 0;
+      const sets = stats.setsCreated || 0;
+      document.getElementById('stat-streak').textContent = String(streak);
+      document.getElementById('stat-time').textContent = `${minutes}m`;
+      document.getElementById('stat-sets').textContent = String(sets);
+      document.getElementById('stat-cards').textContent = String(cards);
+      // Ensure achievement catalog contains expanded items and evaluate unlocks
+      window.SFAchievements.ensureCatalog();
+      window.SFAchievements.checkAll();
+      const list = window.SFStorage.getAchievements();
+      const container = document.getElementById('achievements');
+      container.innerHTML = list.map((a) => {
+        const unlocked = !!a.unlockedAt;
+        const icon = unlocked ? '🏅' : '🔒';
+        return `
+          <article class="panel fade-in-up" aria-label="Achievement: ${a.title}" title="${a.description}" style="opacity:${unlocked ? 1 : 0.6}">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="brand-logo" aria-hidden="true" style="width:40px; height:40px;">${icon}</div>
+              <div>
+                <h4 style="margin:0 0 4px; font-weight:800;">${a.title}</h4>
+                <p class="muted" style="margin-bottom:8px;">${a.description}</p>
+                <span class="badge">${unlocked ? 'Unlocked' : 'Locked'}</span>
+              </div>
+            </div>
+          </article>`;
+      }).join('');
+      Array.from(container.children).forEach((el, i) => setTimeout(() => el.classList.add('show'), 100 + i*80));
+    </script>
+  </body>
+  </html>
+
+

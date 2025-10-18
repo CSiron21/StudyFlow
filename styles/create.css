@@ -1,0 +1,9 @@
+/* Create page specific styles */
+
+.import-panel { max-width: none; margin: 0; }
+.import-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.import-note { color: var(--text-light); font-size: 14px; }
+
+input[type="file"]::-ms-browse { border: none; background: transparent; }
+
+
